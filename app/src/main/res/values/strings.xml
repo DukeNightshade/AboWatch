@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">AboWatch</string>
+    <string name="dashboard_title">My Overview</string>
+    <string name="total_monthly">Total monthly cost</string>
+    <string name="add_sub_button">Add a new subscription</string>
+    <string name="label_name">Subscription Name</string>
+    <string name="label_price">Price</string>
+    <string name="label_category">Select a category</string>
+    <string name="label_start_date">Start date</string>
+    <string name="label_notice_period">Notice period (in days)</string>
+    <string name="button_save">Save</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="cat_streaming" translatable="false">Streaming</string>
+    <string name="cat_gym" translatable="false">Fitness</string>
+    <string name="delete_confirm_title">Delete subscription?</string>
+    <string name="delete_confirm_msg">Are you sure you want to permanently delete this subscription?</string>
+
 </resources>

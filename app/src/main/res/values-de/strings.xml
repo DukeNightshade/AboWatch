@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AboWatch</string>
+    <string name="dashboard_title">Meine Übersicht</string>
+    <string name="total_monthly">Gesamtkosten pro Monat</string>
+    <string name="add_sub_button">Neues Abo hinzufügen</string>
+    <string name="label_name">Name des Abos</string>
+    <string name="label_price">Preis</string>
+    <string name="label_category">Kategorie auswählen</string>
+    <string name="label_start_date">Startdatum</string>
+    <string name="label_notice_period">Kündigungsfrist (in Tagen)</string>
+    <string name="button_save">Speichern</string>
+    <string name="button_cancel">Abbrechen</string>
+    <string name="delete_confirm_title">Abo löschen?</string>
+    <string name="delete_confirm_msg">Möchtest du dieses Abo wirklich dauerhaft entfernen?</string>
+</resources>
