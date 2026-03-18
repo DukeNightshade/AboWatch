@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    // Primary colour
+<!--    Primary color-->
     <color name="navy">#071A2F </color>
 
-    // Secondary colour
+<!--    Secondary color-->
     <color name="darkGreen">#0B3B2E</color>
 
-    // Background colour
+<!--    Background color-->
     <color name="blueGrey">#E5ECF5 </color>
 </resources>
