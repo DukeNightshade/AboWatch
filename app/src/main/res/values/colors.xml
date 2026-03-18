@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--    Primary color-->
-    <color name="navy">#071A2F </color>
+    <!--    App background -->
+    <color name="backgroundDark">#050914</color>
 
-<!--    Secondary color-->
-    <color name="darkGreen">#0B3B2E</color>
+    <!--    Card background -->
+    <color name="cardBackground">#101A2A</color>
 
-<!--    Background color-->
-    <color name="blueGrey">#E5ECF5 </color>
+    <!--    Card border / Divider -->
+    <color name="cardBorder">#1F2940</color>
+
+    <!--    Primary text -->
+    <color name="textPrimary">#F5F7FB</color>
+
+    <!--    Secondary text -->
+    <color name="textSecondary">#B5C0D4</color>
+
+    <!--    disabled text -->
+    <color name="textDisabled">#7D8799</color>
+
+    <!--    Main accent -->
+    <color name="accentGreen">#4ED1A1</color>
+
+    <!--    dark accent -->
+    <color name="accentGreenDark">#1B7863</color>
+
+    <!--    Error / Warning -->
+    <color name="errorRed">#FF6B6B</color>
 </resources>
