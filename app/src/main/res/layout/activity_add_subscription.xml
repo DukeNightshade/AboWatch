@@ -113,7 +113,6 @@
 
         </LinearLayout>
 
-
         <!-- Kategorie -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilCategory"
@@ -127,6 +126,28 @@
 
             <AutoCompleteTextView
                 android:id="@+id/etCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColor="@color/textPrimary"
+                android:background="@android:color/transparent"
+                tools:ignore="TextContrastCheck,LabelFor" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Abrechnungszeitraum -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilBillingCycle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="@string/label_billing_cycle"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            app:boxStrokeColor="@color/accentGreen"
+            app:hintTextColor="@color/textSecondary">
+
+            <AutoCompleteTextView
+                android:id="@+id/etBillingCycle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
@@ -150,7 +171,10 @@
                 android:id="@+id/etStartDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="date"
+                android:inputType="none"
+                android:focusable="false"
+                android:clickable="true"
+                android:cursorVisible="false"
                 tools:ignore="TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>

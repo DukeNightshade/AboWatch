@@ -37,4 +37,9 @@
         <item>Sonstiges</item>
     </string-array>
     <string name="fab_add_description">Neues Abo hinzufügen</string>
+    <string name="label_billing_cycle">Abrechnungszeitraum</string>
+    <string-array name="billing_cycles">
+        <item>Monatlich</item>
+        <item>Jährlich</item>
+    </string-array>
 </resources>
