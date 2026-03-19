@@ -1,5 +1,6 @@
 package com.dukenightshade.abowatch.data;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -12,7 +13,7 @@ import java.util.List;
 @Dao
 public interface SubscriptionDao {
     @Query("SELECT * FROM subscriptions ORDER BY name ASC")
-    List<Subscription> getAllSubscriptions();
+    LiveData<List<Subscription>> getAllSubscriptions();
 
     @Insert
     void insertSubscription(Subscription subscription);
@@ -24,5 +25,5 @@ public interface SubscriptionDao {
     void deleteSubscription(Subscription subscription);
 
     @Query("SELECT SUM(price) FROM subscriptions")
-    double getTotalMonthlyCosts();
+    LiveData<Double> getTotalMonthlyCosts();
 }

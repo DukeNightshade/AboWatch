@@ -4,26 +4,29 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-
 import com.dukenightshade.abowatch.model.Subscription;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-@Database(entities = {Subscription.class}, version = 1)
+@Database(entities = {Subscription.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract SubscriptionDao subscriptionDao();
 
-    private static class Holder {
-        private static AppDatabase instance;
-    }
+    public static final ExecutorService databaseWriteExecutor =
+            Executors.newFixedThreadPool(4);
 
-    public static AppDatabase getDatabase(final Context context) {
-        if (Holder.instance == null) {
-            Holder.instance = Room.databaseBuilder(context.getApplicationContext(),
-                            AppDatabase.class, "abowatch_db")
+    private static AppDatabase instance;
+
+    public static synchronized AppDatabase getDatabase(final Context context) {
+        if (instance == null) {
+            instance = Room.databaseBuilder(
+                            context.getApplicationContext(),
+                            AppDatabase.class,
+                            "abowatch_db")
                     .fallbackToDestructiveMigration()
-                    .allowMainThreadQueries()
                     .build();
         }
-        return Holder.instance;
+        return instance;
     }
 }

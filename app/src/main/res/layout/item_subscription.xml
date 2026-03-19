@@ -29,7 +29,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Netflix"
             android:textColor="@color/textPrimary"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -41,7 +40,6 @@
             android:id="@+id/tvSubscriptionCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Streaming"
             android:textColor="@color/textSecondary"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/tvSubscriptionName"
@@ -51,13 +49,39 @@
             android:id="@+id/tvSubscriptionPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="17,99 €"
             android:textColor="@color/accentGreenDark"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btnEdit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Edit-Buttons: nur im Edit-Modus sichtbar -->
+        <ImageButton
+            android:id="@+id/btnEdit"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_edit"
+            android:visibility="gone"
+            app:tint="@color/textSecondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnDelete"
+            app:layout_constraintTop_toBottomOf="@+id/tvSubscriptionPrice" />
+
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_delete"
+            android:visibility="gone"
+            app:tint="@color/error"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSubscriptionPrice" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

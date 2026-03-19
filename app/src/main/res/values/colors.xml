@@ -25,5 +25,5 @@
     <color name="accentGreenDark">#1B7863</color>
 
     <!--    Error / Warning -->
-    <color name="errorRed">#FF6B6B</color>
+    <color name="error">#FF6B6B</color>
 </resources>

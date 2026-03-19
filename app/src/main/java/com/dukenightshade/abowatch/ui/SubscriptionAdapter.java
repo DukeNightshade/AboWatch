@@ -3,66 +3,126 @@ package com.dukenightshade.abowatch.ui;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dukenightshade.abowatch.R;
 import com.dukenightshade.abowatch.model.Subscription;
+import com.dukenightshade.abowatch.ui.adapter.GroupingUtils;
+import com.dukenightshade.abowatch.ui.adapter.HeaderItem;
+import com.dukenightshade.abowatch.ui.adapter.ListItem;
+import com.dukenightshade.abowatch.ui.adapter.SubscriptionItem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class SubscriptionAdapter extends RecyclerView.Adapter<SubscriptionAdapter.SubscriptionViewHolder> {
+public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Subscription> subscriptionList = new ArrayList<>();
+    private List<ListItem> items = new ArrayList<>();
+    private boolean editModeActive = false;
 
     public void setSubscriptions(List<Subscription> subscriptions) {
-        this.subscriptionList = subscriptions;
+        this.items = GroupingUtils.groupByCategory(subscriptions);
         notifyDataSetChanged();
+    }
+
+    public void setEditMode(boolean active) {
+        this.editModeActive = active;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return items.get(position).getType();
     }
 
     @NonNull
     @Override
-    public SubscriptionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_subscription, parent, false);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        if (viewType == ListItem.TYPE_HEADER) {
+            View view = inflater.inflate(R.layout.item_category_header, parent, false);
+            return new HeaderViewHolder(view);
+        }
+        View view = inflater.inflate(R.layout.item_subscription, parent, false);
         return new SubscriptionViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SubscriptionViewHolder holder, int position) {
-        Subscription current = subscriptionList.get(position);
-        holder.tvName.setText(current.getName());
-        holder.tvCategory.setText(current.getCategory());
-        holder.tvPrice.setText(String.format(Locale.GERMANY, "%.2f €", current.getPrice()));
-
-        // Icon Logik (Beispiel)
-        if ("Streaming".equalsIgnoreCase(current.getCategory())) {
-            holder.ivIcon.setImageResource(R.drawable.ic_streaming);
-        } else if ("Fitness".equalsIgnoreCase(current.getCategory())) {
-            holder.ivIcon.setImageResource(R.drawable.ic_fitness);
-        } else {
-            holder.ivIcon.setImageResource(R.drawable.ic_music);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof HeaderViewHolder) {
+            HeaderItem header = (HeaderItem) items.get(position);
+            ((HeaderViewHolder) holder).bind(header);
+        } else if (holder instanceof SubscriptionViewHolder) {
+            SubscriptionItem subItem = (SubscriptionItem) items.get(position);
+            ((SubscriptionViewHolder) holder).bind(subItem.getSubscription(), editModeActive);
         }
     }
 
     @Override
     public int getItemCount() {
-        return subscriptionList.size();
+        return items.size();
     }
 
+    // --- HeaderViewHolder ---
+    static class HeaderViewHolder extends RecyclerView.ViewHolder {
+        TextView tvCategoryName;
+        TextView tvCategoryTotal;
+
+        HeaderViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvCategoryName = itemView.findViewById(R.id.tvCategoryName);
+            tvCategoryTotal = itemView.findViewById(R.id.tvCategoryTotal);
+        }
+
+        void bind(HeaderItem header) {
+            tvCategoryName.setText(header.getCategoryName());
+            tvCategoryTotal.setText(String.format(
+                    Locale.GERMANY, "%.2f € / Monat", header.getCategoryTotal()
+            ));
+        }
+    }
+
+    // --- SubscriptionViewHolder ---
     static class SubscriptionViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
         TextView tvPrice;
         TextView tvCategory;
         ImageView ivIcon;
+        ImageButton btnEdit;
+        ImageButton btnDelete;
 
-        public SubscriptionViewHolder(@NonNull View itemView) {
+        SubscriptionViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvSubscriptionName);
             tvPrice = itemView.findViewById(R.id.tvSubscriptionPrice);
             tvCategory = itemView.findViewById(R.id.tvSubscriptionCategory);
             ivIcon = itemView.findViewById(R.id.ivCategoryIcon);
+            btnEdit = itemView.findViewById(R.id.btnEdit);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
+        }
+
+        void bind(Subscription subscription, boolean editModeActive) {
+            tvName.setText(subscription.getName());
+            tvCategory.setText(subscription.getCategory());
+            tvPrice.setText(String.format(
+                    Locale.GERMANY, "%.2f €", subscription.getPrice()
+            ));
+
+            int visibility = editModeActive ? View.VISIBLE : View.GONE;
+            btnEdit.setVisibility(visibility);
+            btnDelete.setVisibility(visibility);
+
+            // Icon-Logik
+            if ("Streaming".equalsIgnoreCase(subscription.getCategory())) {
+                ivIcon.setImageResource(R.drawable.ic_streaming);
+            } else if ("Fitness".equalsIgnoreCase(subscription.getCategory())) {
+                ivIcon.setImageResource(R.drawable.ic_fitness);
+            } else {
+                ivIcon.setImageResource(R.drawable.ic_music);
+            }
         }
     }
 }
