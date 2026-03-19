@@ -1,9 +1,12 @@
 package com.dukenightshade.abowatch.data;
 
 import android.content.Context;
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.dukenightshade.abowatch.model.Subscription;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,6 +36,19 @@ public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance;
 
     // ====================================
+    // Migrations
+    // ====================================
+
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL(
+                    "ALTER TABLE subscriptions ADD COLUMN billingCycle TEXT NOT NULL DEFAULT 'monthly'"
+            );
+        }
+    };
+
+    // ====================================
     // Singleton
     // ====================================
 
@@ -42,7 +58,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             AppDatabase.class,
                             "abowatch_db")
-                    .fallbackToDestructiveMigration()
+                    .addMigrations(MIGRATION_1_2)
                     .build();
         }
         return instance;
