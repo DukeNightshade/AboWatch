@@ -36,6 +36,23 @@
             app:layout_constraintStart_toEndOf="@+id/ivCategoryIcon"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Gekündigt-Badge: unter dem Namen -->
+        <TextView
+            android:id="@+id/tvCancelledBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/badge_cancelled_bg"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:text="@string/badge_cancelled"
+            android:textColor="@color/backgroundDark"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/tvSubscriptionName"
+            app:layout_constraintTop_toBottomOf="@+id/tvSubscriptionCategory" />
+
         <TextView
             android:id="@+id/tvSubscriptionCategory"
             android:layout_width="wrap_content"

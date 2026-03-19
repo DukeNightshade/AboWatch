@@ -110,7 +110,7 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         HeaderViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvCategoryName = itemView.findViewById(R.id.tvCategoryName);
+            tvCategoryName  = itemView.findViewById(R.id.tvCategoryName);
             tvCategoryTotal = itemView.findViewById(R.id.tvCategoryTotal);
         }
 
@@ -130,18 +130,20 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private final TextView tvName;
         private final TextView tvPrice;
         private final TextView tvCategory;
+        private final TextView tvCancelledBadge;
         private final ImageView ivIcon;
         private final ImageButton btnEdit;
         private final ImageButton btnDelete;
 
         SubscriptionViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvName     = itemView.findViewById(R.id.tvSubscriptionName);
-            tvPrice    = itemView.findViewById(R.id.tvSubscriptionPrice);
-            tvCategory = itemView.findViewById(R.id.tvSubscriptionCategory);
-            ivIcon     = itemView.findViewById(R.id.ivCategoryIcon);
-            btnEdit    = itemView.findViewById(R.id.btnEdit);
-            btnDelete  = itemView.findViewById(R.id.btnDelete);
+            tvName           = itemView.findViewById(R.id.tvSubscriptionName);
+            tvPrice          = itemView.findViewById(R.id.tvSubscriptionPrice);
+            tvCategory       = itemView.findViewById(R.id.tvSubscriptionCategory);
+            tvCancelledBadge = itemView.findViewById(R.id.tvCancelledBadge);
+            ivIcon           = itemView.findViewById(R.id.ivCategoryIcon);
+            btnEdit          = itemView.findViewById(R.id.btnEdit);
+            btnDelete        = itemView.findViewById(R.id.btnDelete);
         }
 
         void bind(Subscription subscription, boolean editModeActive,
@@ -152,6 +154,11 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             tvPrice.setText(String.format(
                     Locale.GERMANY, "%.2f €", subscription.getPrice()
             ));
+
+            // Gekündigt-Badge
+            tvCancelledBadge.setVisibility(
+                    subscription.isCancelled() ? View.VISIBLE : View.GONE
+            );
 
             // Edit-Buttons nur im Edit-Modus sichtbar
             int visibility = editModeActive ? View.VISIBLE : View.GONE;

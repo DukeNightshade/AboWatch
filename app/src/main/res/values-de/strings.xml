@@ -48,4 +48,5 @@
     <string name="notification_content">Kündige bis %s</string>
     <string name="notification_big_text">Dein Abo \\\"%1$s\\\" verlängert sich bald. Kündige bis spätestens %2$s.</string>
     <string name="label_is_cancelled">Abo gekündigt</string>
+    <string name="badge_cancelled">Gekündigt</string>
 </resources>
