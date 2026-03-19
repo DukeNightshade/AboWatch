@@ -50,4 +50,5 @@
     <string name="notification_title">Cancellation deadline expiring!</string>
     <string name="notification_content">Cancel by %s</string>
     <string name="notification_big_text">Your subscription \\\"%1$s\\\" renews soon. Cancel by %2$s at the latest.</string>
+    <string name="label_is_cancelled">Subscription cancelled</string>
 </resources>
