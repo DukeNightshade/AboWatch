@@ -4,7 +4,24 @@ import com.dukenightshade.abowatch.model.Subscription;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Hilfsmethoden zur Gruppierung von Abos nach Kategorie.
+ * @author Nico Hoffmann
+ * @version 1.0
+ */
 public class GroupingUtils {
+
+    // ====================================
+    // Constructors
+    // ====================================
+
+    private GroupingUtils() {
+        // Utility-Class – No instancing allowed
+    }
+
+    // ====================================
+    // Business Logic Methods
+    // ====================================
 
     public static List<ListItem> groupByCategory(List<Subscription> subscriptions) {
         List<ListItem> result = new ArrayList<>();
@@ -28,7 +45,6 @@ public class GroupingUtils {
             currentGroup.add(s);
         }
 
-        // Letzte Gruppe nicht vergessen
         if (lastCategory != null) {
             result.add(new HeaderItem(lastCategory, categorySum));
             for (Subscription sub : currentGroup) {
