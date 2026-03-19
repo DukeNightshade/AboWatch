@@ -31,7 +31,7 @@ public class Subscription {
     private String startDate;
     private int noticePeriod;
     private String billingCycle;
-
+    private boolean isCancelled = false;
     // ====================================
     // Constructor
     // ====================================
@@ -104,5 +104,13 @@ public class Subscription {
 
     public void setBillingCycle(String billingCycle) {
         this.billingCycle = billingCycle;
+    }
+
+    public boolean isCancelled() {
+        return isCancelled;
+    }
+
+    public void setIsCancelled(boolean isCancelled) {
+        this.isCancelled = isCancelled;
     }
 }

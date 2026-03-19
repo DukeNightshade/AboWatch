@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.dukenightshade.abowatch.R;
 import com.dukenightshade.abowatch.model.Subscription;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.Calendar;
@@ -42,6 +43,7 @@ public class EditSubscriptionActivity extends AppCompatActivity {
     private TextInputEditText etNoticePeriod;
     private SubscriptionViewModel viewModel;
     private int subscriptionId;
+    private MaterialCheckBox cbCancelled;
 
     // ====================================
     // Lifecycle Methods
@@ -75,6 +77,7 @@ public class EditSubscriptionActivity extends AppCompatActivity {
         etBillingCycle = findViewById(R.id.etBillingCycle);
         etStartDate    = findViewById(R.id.etStartDate);
         etNoticePeriod = findViewById(R.id.etNoticePeriod);
+        cbCancelled    = findViewById(R.id.cbCancelled);
 
         String[] categories = getResources().getStringArray(R.array.subscription_categories);
         etCategory.setAdapter(new ArrayAdapter<>(
@@ -133,9 +136,8 @@ public class EditSubscriptionActivity extends AppCompatActivity {
             etCategory.setText(sub.getCategory(), false);
             etStartDate.setText(sub.getStartDate());
             etNoticePeriod.setText(String.valueOf(sub.getNoticePeriod()));
-
-            // billingCycle Key → lokalisierten Label umwandeln
             etBillingCycle.setText(keyToLabel(sub.getBillingCycle()), false);
+            cbCancelled.setChecked(sub.isCancelled());
         });
     }
 
@@ -152,6 +154,7 @@ public class EditSubscriptionActivity extends AppCompatActivity {
 
         Subscription updated = new Subscription(name, price, category, date, notice, billingCycle);
         updated.setId(subscriptionId);
+        updated.setIsCancelled(cbCancelled.isChecked());
         viewModel.update(updated);
 
         Toast.makeText(this, getString(R.string.toast_subscription_saved), Toast.LENGTH_SHORT).show();

@@ -15,9 +15,9 @@ import java.util.concurrent.Executors;
  * Room-Datenbankklasse für AboWatch.
  * Verwaltet die lokale SQLite-Datenbank und stellt den DAO bereit.
  * @author Nico Hoffmann
- * @version 2.0
+ * @version 3.0
  */
-@Database(entities = {Subscription.class}, version = 2, exportSchema = false)
+@Database(entities = {Subscription.class}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     // ====================================
@@ -48,6 +48,15 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL(
+                    "ALTER TABLE subscriptions ADD COLUMN isCancelled INTEGER NOT NULL DEFAULT 0"
+            );
+        }
+    };
+
     // ====================================
     // Singleton
     // ====================================
@@ -58,7 +67,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             AppDatabase.class,
                             "abowatch_db")
-                    .addMigrations(MIGRATION_1_2)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                     .build();
         }
         return instance;

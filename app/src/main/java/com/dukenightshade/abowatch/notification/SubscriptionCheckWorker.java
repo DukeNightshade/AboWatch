@@ -58,6 +58,7 @@ public class SubscriptionCheckWorker extends Worker {
 
     private void checkAndNotify(Subscription sub) {
         try {
+            if (sub.isCancelled()) return;
             SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.ROOT);
             Date startDate = sdf.parse(sub.getStartDate());
             if (startDate == null) return;
