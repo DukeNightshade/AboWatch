@@ -19,5 +19,6 @@
     <string name="button_delete">Delete</string>
     <string name="error_field_required">This field cannot be left blank</string>
     <string name="toast_subscription_saved">Subscription saved</string>
+    <string name="toast_subscription_deleted">Subscription deleted</string>
 
 </resources>
