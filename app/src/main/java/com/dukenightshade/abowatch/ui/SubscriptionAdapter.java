@@ -64,7 +64,6 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         diffResult.dispatchUpdatesTo(this);
     }
 
-
     public void setEditMode(boolean active) {
         this.editModeActive = active;
         notifyItemRangeChanged(0, items.size());
@@ -137,12 +136,12 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         SubscriptionViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvName = itemView.findViewById(R.id.tvSubscriptionName);
-            tvPrice = itemView.findViewById(R.id.tvSubscriptionPrice);
+            tvName     = itemView.findViewById(R.id.tvSubscriptionName);
+            tvPrice    = itemView.findViewById(R.id.tvSubscriptionPrice);
             tvCategory = itemView.findViewById(R.id.tvSubscriptionCategory);
-            ivIcon = itemView.findViewById(R.id.ivCategoryIcon);
-            btnEdit = itemView.findViewById(R.id.btnEdit);
-            btnDelete = itemView.findViewById(R.id.btnDelete);
+            ivIcon     = itemView.findViewById(R.id.ivCategoryIcon);
+            btnEdit    = itemView.findViewById(R.id.btnEdit);
+            btnDelete  = itemView.findViewById(R.id.btnDelete);
         }
 
         void bind(Subscription subscription, boolean editModeActive,
@@ -160,12 +159,40 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             btnDelete.setVisibility(visibility);
 
             // Icon-Logik
-            if ("Streaming".equalsIgnoreCase(subscription.getCategory())) {
-                ivIcon.setImageResource(R.drawable.ic_streaming);
-            } else if ("Fitness".equalsIgnoreCase(subscription.getCategory())) {
-                ivIcon.setImageResource(R.drawable.ic_fitness);
-            } else {
-                ivIcon.setImageResource(R.drawable.ic_music);
+            switch (subscription.getCategory()) {
+                case "Streaming":
+                    ivIcon.setImageResource(R.drawable.ic_streaming);
+                    break;
+                case "Musik":
+                case "Music":
+                    ivIcon.setImageResource(R.drawable.ic_music);
+                    break;
+                case "Gaming":
+                    ivIcon.setImageResource(R.drawable.ic_controller);
+                    break;
+                case "Fitness":
+                    ivIcon.setImageResource(R.drawable.ic_fitness);
+                    break;
+                case "Software":
+                    ivIcon.setImageResource(R.drawable.ic_software);
+                    break;
+                case "Cloud":
+                    ivIcon.setImageResource(R.drawable.ic_cloud);
+                    break;
+                case "Nachrichten":
+                case "News":
+                    ivIcon.setImageResource(R.drawable.ic_news);
+                    break;
+                case "Shopping":
+                    ivIcon.setImageResource(R.drawable.ic_shopping);
+                    break;
+                case "Finanzen":
+                case "Finance":
+                    ivIcon.setImageResource(R.drawable.ic_finance);
+                    break;
+                default:
+                    ivIcon.setImageResource(R.drawable.ic_other);
+                    break;
             }
 
             // Callbacks
