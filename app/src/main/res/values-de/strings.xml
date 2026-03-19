@@ -19,4 +19,22 @@
     <string name="error_field_required">Dieses Feld darf nicht leer sein</string>
     <string name="toast_subscription_saved">Abo gespeichert</string>
     <string name="toast_subscription_deleted">Abo gelöscht</string>
+    <string name="title_add_subscription">Neues Abo</string>
+    <string name="subtitle_add_subscription">Füge ein neues Abonnement hinzu</string>
+    <string name="title_edit_subscription">Abo bearbeiten</string>
+    <string name="subtitle_edit_subscription">Bearbeite deine Abodaten</string>
+    <string name="error_price_invalid">Bitte einen gültigen Preis eingeben</string>
+    <string-array name="subscription_categories">
+        <item>Streaming</item>
+        <item>Musik</item>
+        <item>Gaming</item>
+        <item>Fitness</item>
+        <item>Software</item>
+        <item>Cloud</item>
+        <item>Nachrichten</item>
+        <item>Shopping</item>
+        <item>Finanzen</item>
+        <item>Sonstiges</item>
+    </string-array>
+    <string name="fab_add_description">Neues Abo hinzufügen</string>
 </resources>

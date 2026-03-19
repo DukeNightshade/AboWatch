@@ -1,6 +1,8 @@
 package com.dukenightshade.abowatch.ui;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +11,8 @@ import com.dukenightshade.abowatch.R;
 import com.dukenightshade.abowatch.model.Subscription;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Locale;
 
 /**
  * Activity zum Bearbeiten eines bestehenden Abonnements.
@@ -28,8 +32,9 @@ public class EditSubscriptionActivity extends AppCompatActivity {
     // ====================================
 
     private TextInputEditText etName;
-    private TextInputEditText etPrice;
-    private TextInputEditText etCategory;
+    private TextInputEditText etPriceEuros;
+    private TextInputEditText etPriceCents;
+    private AutoCompleteTextView etCategory;
     private TextInputEditText etStartDate;
     private TextInputEditText etNoticePeriod;
     private SubscriptionViewModel viewModel;
@@ -61,10 +66,19 @@ public class EditSubscriptionActivity extends AppCompatActivity {
 
     private void initViews() {
         etName         = findViewById(R.id.etName);
-        etPrice        = findViewById(R.id.etPrice);
+        etPriceEuros   = findViewById(R.id.etPriceEuros);
+        etPriceCents   = findViewById(R.id.etPriceCents);
         etCategory     = findViewById(R.id.etCategory);
         etStartDate    = findViewById(R.id.etStartDate);
         etNoticePeriod = findViewById(R.id.etNoticePeriod);
+
+        String[] categories = getResources().getStringArray(R.array.subscription_categories);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_dropdown_item_1line,
+                categories
+        );
+        etCategory.setAdapter(categoryAdapter);
 
         MaterialButton btnSave   = findViewById(R.id.btnSave);
         MaterialButton btnDelete = findViewById(R.id.btnDelete);
@@ -85,19 +99,26 @@ public class EditSubscriptionActivity extends AppCompatActivity {
         viewModel.getById(subscriptionId).observe(this, sub -> {
             if (sub == null) { finish(); return; }
             etName.setText(sub.getName());
-            etPrice.setText(String.valueOf(sub.getPrice()));
-            etCategory.setText(sub.getCategory());
+
+            int euros = (int) sub.getPrice();
+            int cents = (int) Math.round((sub.getPrice() - euros) * 100);
+            etPriceEuros.setText(String.valueOf(euros));
+            etPriceCents.setText(String.format(Locale.ROOT, "%02d", cents));
+
+            etCategory.setText(sub.getCategory(), false);
             etStartDate.setText(sub.getStartDate());
             etNoticePeriod.setText(String.valueOf(sub.getNoticePeriod()));
         });
     }
 
     private void saveSubscription() {
-        String name     = getTextOrEmpty(etName);
-        double price    = Double.parseDouble(getTextOrEmpty(etPrice).replace(",", "."));
-        String category = getTextOrEmpty(etCategory);
-        String date     = getTextOrEmpty(etStartDate);
-        int notice      = Integer.parseInt(getTextOrEmpty(etNoticePeriod));
+        String name      = getTextOrEmpty(etName);
+        int euros        = Integer.parseInt(getTextOrEmpty(etPriceEuros).isEmpty() ? "0" : getTextOrEmpty(etPriceEuros));
+        int cents        = Integer.parseInt(getTextOrEmpty(etPriceCents).isEmpty() ? "0" : getTextOrEmpty(etPriceCents));
+        double price     = euros + (cents / 100.0);
+        String category  = etCategory.getText().toString().trim();
+        String date      = getTextOrEmpty(etStartDate);
+        int notice       = Integer.parseInt(getTextOrEmpty(etNoticePeriod));
 
         Subscription updated = new Subscription(name, price, category, date, notice);
         updated.setId(subscriptionId);
@@ -131,11 +152,23 @@ public class EditSubscriptionActivity extends AppCompatActivity {
             etName.setError(getString(R.string.error_field_required));
             return false;
         }
-        if (getTextOrEmpty(etPrice).isEmpty()) {
-            etPrice.setError(getString(R.string.error_field_required));
+        if (getTextOrEmpty(etPriceEuros).isEmpty()) {
+            etPriceEuros.setError(getString(R.string.error_field_required));
             return false;
         }
-        if (getTextOrEmpty(etCategory).isEmpty()) {
+        try {
+            int euros = Integer.parseInt(getTextOrEmpty(etPriceEuros));
+            int cents = getTextOrEmpty(etPriceCents).isEmpty() ? 0 : Integer.parseInt(getTextOrEmpty(etPriceCents));
+            double price = euros + (cents / 100.0);
+            if (price <= 0) {
+                etPriceEuros.setError(getString(R.string.error_price_invalid));
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            etPriceEuros.setError(getString(R.string.error_price_invalid));
+            return false;
+        }
+        if (etCategory.getText().toString().trim().isEmpty()) {
             etCategory.setError(getString(R.string.error_field_required));
             return false;
         }
