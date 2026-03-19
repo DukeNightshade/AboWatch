@@ -8,9 +8,26 @@ import androidx.lifecycle.MutableLiveData;
 import com.dukenightshade.abowatch.data.AppDatabase;
 import com.dukenightshade.abowatch.data.SubscriptionDao;
 import com.dukenightshade.abowatch.model.Subscription;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
+/**
+ * ViewModel für die Abo-Liste.
+ * Vermittelt zwischen UI und Datenbank-DAO.
+ * @author Nico Hoffmann
+ * @version 1.0
+ */
 public class SubscriptionViewModel extends AndroidViewModel {
+
+    // ====================================
+    // Constants
+    // ====================================
+
+    private static final String DATE_FORMAT = "dd.MM.yyyy";
 
     // ====================================
     // Instance Variables
@@ -65,5 +82,43 @@ public class SubscriptionViewModel extends AndroidViewModel {
         AppDatabase.databaseWriteExecutor.execute(
                 () -> dao.deleteById(id)
         );
+    }
+
+    public void deleteExpiredCancelled() {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            List<Subscription> all = dao.getAllSync();
+            for (Subscription sub : all) {
+                if (sub.isCancelled() && isExpired(sub)) {
+                    dao.deleteSubscription(sub);
+                }
+            }
+        });
+    }
+
+    // ====================================
+    // Utility Methods
+    // ====================================
+
+    private boolean isExpired(Subscription sub) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.ROOT);
+            Date startDate = sdf.parse(sub.getStartDate());
+            if (startDate == null) return false;
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(startDate);
+            Calendar today = Calendar.getInstance();
+
+            while (cal.before(today)) {
+                if (Subscription.BILLING_CYCLE_YEARLY.equals(sub.getBillingCycle())) {
+                    cal.add(Calendar.YEAR, 1);
+                } else {
+                    cal.add(Calendar.MONTH, 1);
+                }
+            }
+            return cal.before(today);
+        } catch (ParseException e) {
+            return false;
+        }
     }
 }

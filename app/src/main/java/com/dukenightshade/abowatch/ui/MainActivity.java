@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setSubscriptions(subscriptions);
             }
         });
+        viewModel.deleteExpiredCancelled();
     }
 
     private void setupNotifications() {
