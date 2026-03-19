@@ -37,6 +37,7 @@ public class EditSubscriptionActivity extends AppCompatActivity {
     private TextInputEditText etPriceEuros;
     private TextInputEditText etPriceCents;
     private AutoCompleteTextView etCategory;
+    private AutoCompleteTextView etBillingCycle;
     private TextInputEditText etStartDate;
     private TextInputEditText etNoticePeriod;
     private SubscriptionViewModel viewModel;
@@ -71,16 +72,17 @@ public class EditSubscriptionActivity extends AppCompatActivity {
         etPriceEuros   = findViewById(R.id.etPriceEuros);
         etPriceCents   = findViewById(R.id.etPriceCents);
         etCategory     = findViewById(R.id.etCategory);
+        etBillingCycle = findViewById(R.id.etBillingCycle);
         etStartDate    = findViewById(R.id.etStartDate);
         etNoticePeriod = findViewById(R.id.etNoticePeriod);
 
         String[] categories = getResources().getStringArray(R.array.subscription_categories);
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_dropdown_item_1line,
-                categories
-        );
-        etCategory.setAdapter(categoryAdapter);
+        etCategory.setAdapter(new ArrayAdapter<>(
+                this, android.R.layout.simple_dropdown_item_1line, categories));
+
+        String[] billingCycles = getResources().getStringArray(R.array.billing_cycles);
+        etBillingCycle.setAdapter(new ArrayAdapter<>(
+                this, android.R.layout.simple_dropdown_item_1line, billingCycles));
 
         etStartDate.setFocusable(false);
         etStartDate.setClickable(true);
@@ -90,9 +92,7 @@ public class EditSubscriptionActivity extends AppCompatActivity {
         MaterialButton btnDelete = findViewById(R.id.btnDelete);
 
         btnSave.setOnClickListener(v -> {
-            if (validateInputs()) {
-                saveSubscription();
-            }
+            if (validateInputs()) saveSubscription();
         });
         btnDelete.setOnClickListener(v -> confirmDelete());
     }
@@ -133,19 +133,24 @@ public class EditSubscriptionActivity extends AppCompatActivity {
             etCategory.setText(sub.getCategory(), false);
             etStartDate.setText(sub.getStartDate());
             etNoticePeriod.setText(String.valueOf(sub.getNoticePeriod()));
+
+            // billingCycle Key → lokalisierten Label umwandeln
+            etBillingCycle.setText(keyToLabel(sub.getBillingCycle()), false);
         });
     }
 
     private void saveSubscription() {
-        String name      = getTextOrEmpty(etName);
-        int euros        = Integer.parseInt(getTextOrEmpty(etPriceEuros).isEmpty() ? "0" : getTextOrEmpty(etPriceEuros));
-        int cents        = Integer.parseInt(getTextOrEmpty(etPriceCents).isEmpty() ? "0" : getTextOrEmpty(etPriceCents));
-        double price     = euros + (cents / 100.0);
-        String category  = etCategory.getText().toString().trim();
-        String date      = getTextOrEmpty(etStartDate);
-        int notice       = Integer.parseInt(getTextOrEmpty(etNoticePeriod));
+        String name        = getTextOrEmpty(etName);
+        int euros          = Integer.parseInt(getTextOrEmpty(etPriceEuros).isEmpty() ? "0" : getTextOrEmpty(etPriceEuros));
+        int cents          = Integer.parseInt(getTextOrEmpty(etPriceCents).isEmpty() ? "0" : getTextOrEmpty(etPriceCents));
+        double price       = euros + (cents / 100.0);
+        String category    = etCategory.getText().toString().trim();
+        String date        = getTextOrEmpty(etStartDate);
+        int notice         = Integer.parseInt(getTextOrEmpty(etNoticePeriod));
+        String cycleLabel  = etBillingCycle.getText().toString().trim();
+        String billingCycle = cycleToKey(cycleLabel);
 
-        Subscription updated = new Subscription(name, price, category, date, notice);
+        Subscription updated = new Subscription(name, price, category, date, notice, billingCycle);
         updated.setId(subscriptionId);
         viewModel.update(updated);
 
@@ -184,8 +189,7 @@ public class EditSubscriptionActivity extends AppCompatActivity {
         try {
             int euros = Integer.parseInt(getTextOrEmpty(etPriceEuros));
             int cents = getTextOrEmpty(etPriceCents).isEmpty() ? 0 : Integer.parseInt(getTextOrEmpty(etPriceCents));
-            double price = euros + (cents / 100.0);
-            if (price <= 0) {
+            if (euros + (cents / 100.0) <= 0) {
                 etPriceEuros.setError(getString(R.string.error_price_invalid));
                 return false;
             }
@@ -197,6 +201,10 @@ public class EditSubscriptionActivity extends AppCompatActivity {
             etCategory.setError(getString(R.string.error_field_required));
             return false;
         }
+        if (etBillingCycle.getText().toString().trim().isEmpty()) {
+            etBillingCycle.setError(getString(R.string.error_field_required));
+            return false;
+        }
         if (getTextOrEmpty(etStartDate).isEmpty()) {
             etStartDate.setError(getString(R.string.error_field_required));
             return false;
@@ -206,6 +214,24 @@ public class EditSubscriptionActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Wandelt den lokalisierten Anzeigewert in den DB-Schlüssel um.
+     */
+    private String cycleToKey(String label) {
+        String[] cycles = getResources().getStringArray(R.array.billing_cycles);
+        if (label.equals(cycles[1])) return Subscription.BILLING_CYCLE_YEARLY;
+        return Subscription.BILLING_CYCLE_MONTHLY;
+    }
+
+    /**
+     * Wandelt den DB-Schlüssel in den lokalisierten Anzeigewert um.
+     */
+    private String keyToLabel(String key) {
+        String[] cycles = getResources().getStringArray(R.array.billing_cycles);
+        if (Subscription.BILLING_CYCLE_YEARLY.equals(key)) return cycles[1];
+        return cycles[0];
     }
 
     private String getTextOrEmpty(TextInputEditText field) {

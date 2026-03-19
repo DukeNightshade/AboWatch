@@ -37,4 +37,14 @@
         <item>Sonstiges</item>
     </string-array>
     <string name="fab_add_description">Neues Abo hinzufügen</string>
+    <string name="label_billing_cycle">Abrechnungszeitraum</string>
+    <string-array name="billing_cycles">
+        <item>Monatlich</item>
+        <item>Jährlich</item>
+    </string-array>
+    <string name="notification_channel_name">AboWatch Erinnerungen</string>
+    <string name="notification_channel_desc">Erinnerungen für ablaufende Kündigungsfristen</string>
+    <string name="notification_title">Kündigungsfrist läuft ab!</string>
+    <string name="notification_content">Kündige bis %s</string>
+    <string name="notification_big_text">Dein Abo \\\"%1$s\\\" verlängert sich bald. Kündige bis spätestens %2$s.</string>
 </resources>

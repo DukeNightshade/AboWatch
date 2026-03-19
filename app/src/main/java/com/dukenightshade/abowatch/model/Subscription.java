@@ -3,8 +3,24 @@ package com.dukenightshade.abowatch.model;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+/**
+ * Entität für ein Abonnement in der Room-Datenbank.
+ * @author Nico Hoffmann
+ * @version 1.0
+ */
 @Entity(tableName = "subscriptions")
 public class Subscription {
+
+    // ====================================
+    // Constants
+    // ====================================
+
+    public static final String BILLING_CYCLE_MONTHLY = "monthly";
+    public static final String BILLING_CYCLE_YEARLY  = "yearly";
+
+    // ====================================
+    // Database Fields
+    // ====================================
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -14,14 +30,25 @@ public class Subscription {
     private String category;
     private String startDate;
     private int noticePeriod;
+    private String billingCycle;
 
-    public Subscription(String name, double price, String category, String startDate, int noticePeriod) {
-        this.name = name;
-        this.price = price;
-        this.category = category;
-        this.startDate = startDate;
+    // ====================================
+    // Constructor
+    // ====================================
+
+    public Subscription(String name, double price, String category,
+                        String startDate, int noticePeriod, String billingCycle) {
+        this.name         = name;
+        this.price        = price;
+        this.category     = category;
+        this.startDate    = startDate;
         this.noticePeriod = noticePeriod;
+        this.billingCycle = billingCycle;
     }
+
+    // ====================================
+    // Getter & Setter
+    // ====================================
 
     public int getId() {
         return id;
@@ -69,5 +96,13 @@ public class Subscription {
 
     public void setNoticePeriod(int noticePeriod) {
         this.noticePeriod = noticePeriod;
+    }
+
+    public String getBillingCycle() {
+        return billingCycle;
+    }
+
+    public void setBillingCycle(String billingCycle) {
+        this.billingCycle = billingCycle;
     }
 }
