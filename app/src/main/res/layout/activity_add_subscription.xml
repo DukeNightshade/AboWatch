@@ -1,15 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundDark">
+    android:background="@color/backgroundDark"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="24dp"
+        android:gravity="center_horizontal"
+        android:paddingTop="100dp">
+
+        <!-- Überschrift -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_add_subscription"
+            android:textColor="@color/accentGreen"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:layout_marginTop="80dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Untertitel -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/subtitle_add_subscription"
+            android:textColor="@color/textSecondary"
+            android:textSize="14sp"
+            android:layout_marginBottom="32dp" />
 
         <!-- Name -->
         <com.google.android.material.textfield.TextInputLayout
@@ -25,43 +49,90 @@
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                tools:ignore="TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Preis -->
-        <com.google.android.material.textfield.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:hint="@string/label_price"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-            app:boxStrokeColor="@color/accentGreen"
-            app:hintTextColor="@color/textSecondary">
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPrice"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
+                android:layout_weight="2"
+                android:hint="@string/label_price_euros"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/accentGreen"
+                app:hintTextColor="@color/textSecondary">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPriceEuros"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textColor="@color/textPrimary"
+                    tools:ignore="TextContrastCheck" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingHorizontal="8dp"
+                android:text=","
+                android:textColor="@color/textPrimary"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/label_price_cents"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/accentGreen"
+                app:hintTextColor="@color/textSecondary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPriceCents"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:textColor="@color/textPrimary"
+                    tools:ignore="TextContrastCheck" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
 
         <!-- Kategorie -->
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:hint="@string/label_category"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             app:boxStrokeColor="@color/accentGreen"
             app:hintTextColor="@color/textSecondary">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/etCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="none"
+                android:textColor="@color/textPrimary"
+                android:background="@android:color/transparent"
+                tools:ignore="TextContrastCheck,LabelFor" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,7 +150,8 @@
                 android:id="@+id/etStartDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="date" />
+                android:inputType="date"
+                tools:ignore="TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,7 +159,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="32dp"
             android:hint="@string/label_notice_period"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:boxStrokeColor="@color/accentGreen"
@@ -97,7 +169,8 @@
                 android:id="@+id/etNoticePeriod"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
+                android:inputType="number"
+                tools:ignore="TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,7 +181,8 @@
             android:layout_height="wrap_content"
             android:text="@string/button_save"
             android:textColor="@color/backgroundDark"
-            app:backgroundTint="@color/accentGreen" />
+            app:backgroundTint="@color/accentGreen"
+            tools:ignore="TextContrastCheck" />
 
     </LinearLayout>
 </ScrollView>

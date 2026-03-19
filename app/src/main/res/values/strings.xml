@@ -20,5 +20,24 @@
     <string name="error_field_required">This field cannot be left blank</string>
     <string name="toast_subscription_saved">Subscription saved</string>
     <string name="toast_subscription_deleted">Subscription deleted</string>
-
+    <string name="title_add_subscription">New Subscription</string>
+    <string name="subtitle_add_subscription">Add a new subscription</string>
+    <string name="title_edit_subscription">Edit subscription</string>
+    <string name="subtitle_edit_subscription">Edit your subscription details</string>
+    <string name="error_price_invalid">Please enter a valid price</string>
+    <string name="label_price_euros" translatable="false">Euro</string>
+    <string name="label_price_cents" translatable="false">Cent</string>
+    <string-array name="subscription_categories">
+        <item>Streaming</item>
+        <item>Music</item>
+        <item>Gaming</item>
+        <item>Fitness</item>
+        <item>Software</item>
+        <item>Cloud</item>
+        <item>News</item>
+        <item>Shopping</item>
+        <item>Finance</item>
+        <item>Other</item>
+    </string-array>
+    <string name="fab_add_description">Add new subscription</string>
 </resources>

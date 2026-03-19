@@ -67,7 +67,9 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add"
-        app:tint="@color/backgroundDark" />
+        android:contentDescription="@string/fab_add_description"
+        app:backgroundTint="@color/cardBackground"
+        app:tint="@color/accentGreen" />
 
     <!-- Edit-Modus Button -->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -77,6 +79,9 @@
         android:layout_gravity="bottom|start"
         android:layout_margin="16dp"
         android:text="@string/button_edit"
-        app:icon="@drawable/ic_edit" />
+        android:textColor="@color/accentGreen"
+        app:backgroundTint="@color/cardBackground"
+        app:icon="@drawable/ic_edit"
+        app:iconTint="@color/accentGreen" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

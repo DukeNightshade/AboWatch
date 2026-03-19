@@ -1,13 +1,19 @@
 package com.dukenightshade.abowatch.ui;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import com.dukenightshade.abowatch.R;
 import com.dukenightshade.abowatch.model.Subscription;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Activity zum Hinzufügen eines neuen Abonnements.
@@ -21,8 +27,9 @@ public class AddSubscriptionActivity extends AppCompatActivity {
     // ====================================
 
     private TextInputEditText etName;
-    private TextInputEditText etPrice;
-    private TextInputEditText etCategory;
+    private TextInputEditText etPriceEuros;
+    private TextInputEditText etPriceCents;
+    private AutoCompleteTextView etCategory;
     private TextInputEditText etStartDate;
     private TextInputEditText etNoticePeriod;
     private SubscriptionViewModel viewModel;
@@ -45,11 +52,24 @@ public class AddSubscriptionActivity extends AppCompatActivity {
     // ====================================
 
     private void initViews() {
-        etName = findViewById(R.id.etName);
-        etPrice = findViewById(R.id.etPrice);
-        etCategory = findViewById(R.id.etCategory);
-        etStartDate = findViewById(R.id.etStartDate);
+        etName         = findViewById(R.id.etName);
+        etPriceEuros   = findViewById(R.id.etPriceEuros);
+        etPriceCents   = findViewById(R.id.etPriceCents);
+        etCategory     = findViewById(R.id.etCategory);
+        etStartDate    = findViewById(R.id.etStartDate);
         etNoticePeriod = findViewById(R.id.etNoticePeriod);
+
+        String[] categories = getResources().getStringArray(R.array.subscription_categories);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_dropdown_item_1line,
+                categories
+        );
+        etCategory.setAdapter(categoryAdapter);
+
+        etStartDate.setFocusable(false);
+        etStartDate.setClickable(true);
+        etStartDate.setOnClickListener(v -> showDatePicker());
 
         MaterialButton btnSave = findViewById(R.id.btnSave);
         btnSave.setOnClickListener(v -> {
@@ -63,10 +83,31 @@ public class AddSubscriptionActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(SubscriptionViewModel.class);
     }
 
+    private void showDatePicker() {
+        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText(getString(R.string.label_start_date))
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build();
+
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            calendar.setTimeInMillis(selection);
+            String date = String.format(Locale.ROOT, "%02d.%02d.%04d",
+                    calendar.get(Calendar.DAY_OF_MONTH),
+                    calendar.get(Calendar.MONTH) + 1,
+                    calendar.get(Calendar.YEAR));
+            etStartDate.setText(date);
+        });
+
+        datePicker.show(getSupportFragmentManager(), "DATE_PICKER");
+    }
+
     private void saveSubscription() {
-        String name = getTextOrEmpty(etName);
-        double price = Double.parseDouble(getTextOrEmpty(etPrice).replace(",", "."));
-        String category = getTextOrEmpty(etCategory);
+        String name      = getTextOrEmpty(etName);
+        int euros        = Integer.parseInt(getTextOrEmpty(etPriceEuros).isEmpty() ? "0" : getTextOrEmpty(etPriceEuros));
+        int cents        = Integer.parseInt(getTextOrEmpty(etPriceCents).isEmpty() ? "0" : getTextOrEmpty(etPriceCents));
+        double price     = euros + (cents / 100.0);
+        String category  = etCategory.getText().toString().trim();
         String startDate = getTextOrEmpty(etStartDate);
         int noticePeriod = Integer.parseInt(getTextOrEmpty(etNoticePeriod));
 
@@ -86,11 +127,23 @@ public class AddSubscriptionActivity extends AppCompatActivity {
             etName.setError(getString(R.string.error_field_required));
             return false;
         }
-        if (getTextOrEmpty(etPrice).isEmpty()) {
-            etPrice.setError(getString(R.string.error_field_required));
+        if (getTextOrEmpty(etPriceEuros).isEmpty()) {
+            etPriceEuros.setError(getString(R.string.error_field_required));
             return false;
         }
-        if (getTextOrEmpty(etCategory).isEmpty()) {
+        try {
+            int euros = Integer.parseInt(getTextOrEmpty(etPriceEuros));
+            int cents = getTextOrEmpty(etPriceCents).isEmpty() ? 0 : Integer.parseInt(getTextOrEmpty(etPriceCents));
+            double price = euros + (cents / 100.0);
+            if (price <= 0) {
+                etPriceEuros.setError(getString(R.string.error_price_invalid));
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            etPriceEuros.setError(getString(R.string.error_price_invalid));
+            return false;
+        }
+        if (etCategory.getText().toString().trim().isEmpty()) {
             etCategory.setError(getString(R.string.error_field_required));
             return false;
         }
