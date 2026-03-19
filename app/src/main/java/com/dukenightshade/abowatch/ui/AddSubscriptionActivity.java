@@ -9,7 +9,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.dukenightshade.abowatch.R;
 import com.dukenightshade.abowatch.model.Subscription;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Activity zum Hinzufügen eines neuen Abonnements.
@@ -63,6 +67,10 @@ public class AddSubscriptionActivity extends AppCompatActivity {
         );
         etCategory.setAdapter(categoryAdapter);
 
+        etStartDate.setFocusable(false);
+        etStartDate.setClickable(true);
+        etStartDate.setOnClickListener(v -> showDatePicker());
+
         MaterialButton btnSave = findViewById(R.id.btnSave);
         btnSave.setOnClickListener(v -> {
             if (validateInputs()) {
@@ -73,6 +81,25 @@ public class AddSubscriptionActivity extends AppCompatActivity {
 
     private void initViewModel() {
         viewModel = new ViewModelProvider(this).get(SubscriptionViewModel.class);
+    }
+
+    private void showDatePicker() {
+        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText(getString(R.string.label_start_date))
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build();
+
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            calendar.setTimeInMillis(selection);
+            String date = String.format(Locale.ROOT, "%02d.%02d.%04d",
+                    calendar.get(Calendar.DAY_OF_MONTH),
+                    calendar.get(Calendar.MONTH) + 1,
+                    calendar.get(Calendar.YEAR));
+            etStartDate.setText(date);
+        });
+
+        datePicker.show(getSupportFragmentManager(), "DATE_PICKER");
     }
 
     private void saveSubscription() {

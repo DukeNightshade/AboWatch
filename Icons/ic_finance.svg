@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="finance">
+  <g id="Coins_2">
+    <g id="_Group_">
+      <ellipse id="_Path_" cx="6.5" cy="15.5" rx="6" ry="2" style="fill:none;stroke:#303c42;stroke-linecap:round;stroke-linejoin:round"></ellipse>
+      <path id="_Path_2" d="M12.5,15.5v3c0,1.1-2.69,2-6,2s-6-.9-6-2v-3" style="fill:none;stroke:#303c42;stroke-linecap:round;stroke-linejoin:round"></path>
+      <ellipse id="_Path_3" cx="9.5" cy="5.5" rx="6" ry="2" style="fill:none;stroke:#303c42;stroke-linecap:round;stroke-linejoin:round"></ellipse>
+      <line id="_Path_4" x1="15.5" x2="15.5" y1="6.62" y2="5.5" style="fill:none;stroke:#303c42;stroke-linecap:round;stroke-linejoin:round"></line>
+      <path id="_Path_5" d="M3.5,5.5v3c0,1.1,2.69,2,6,2a17.11,17.11,0,0,0,2-.12" style="fill:none;stroke:#303c42;stroke-linecap:round;stroke-linejoin:round"></path>
+      <ellipse id="_Path_6" cx="17.5" cy="8.5" rx="6" ry="2" style="fill:none;stroke:#303c42;stroke-linecap:round;stroke-linejoin:round"></ellipse>
+      <path id="_Path_7" d="M23.5,8.5v3c0,1.1-2.69,2-6,2s-6-.9-6-2v-3" style="fill:none;stroke:#303c42;stroke-linecap:round;stroke-linejoin:round"></path>
+      <path id="_Path_8" d="M12.5,15.5a.69.69,0,0,1,0,.1,12,12,0,0,0,5,.9c3.31,0,6-.9,6-2v-3" style="fill:none;stroke:#303c42;stroke-linecap:round;stroke-linejoin:round"></path>
+      <line id="_Path_9" x1="11.5" x2="11.5" y1="11.5" y2="14.4" style="fill:none;stroke:#303c42;stroke-linecap:round;stroke-linejoin:round"></line>
+      <path id="_Path_10" d="M3.5,9v3c0,.61.82,1.16,2.12,1.52" style="fill:none;stroke:#303c42;stroke-linecap:round;stroke-linejoin:round"></path>
+    </g>
+  </g>
+</svg>
