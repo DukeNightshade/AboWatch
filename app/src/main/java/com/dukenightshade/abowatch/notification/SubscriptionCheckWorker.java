@@ -1,6 +1,8 @@
 package com.dukenightshade.abowatch.notification;
 
 import android.content.Context;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
@@ -26,6 +28,7 @@ public class SubscriptionCheckWorker extends Worker {
 
     private static final int NOTIFICATION_DAYS_BEFORE = 7;
     private static final String DATE_FORMAT = "dd.MM.yyyy";
+    private static final String TAG = "SubscriptionCheckWorker";
 
     // ====================================
     // Constructor
@@ -60,7 +63,7 @@ public class SubscriptionCheckWorker extends Worker {
             if (startDate == null) return;
 
             Date nextCancellationDate = getNextCancellationDate(startDate, sub.getBillingCycle());
-            Date notifyDate = getDaysBeforeDate(nextCancellationDate, NOTIFICATION_DAYS_BEFORE);
+            Date notifyDate = getDaysBeforeDate(nextCancellationDate);
 
             Calendar today = Calendar.getInstance();
             today.set(Calendar.HOUR_OF_DAY, 0);
@@ -78,7 +81,7 @@ public class SubscriptionCheckWorker extends Worker {
                 );
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Failed to parse date for subscription: " + sub.getName(), e);
         }
     }
 
@@ -101,10 +104,10 @@ public class SubscriptionCheckWorker extends Worker {
         return cal.getTime();
     }
 
-    private Date getDaysBeforeDate(Date date, int days) {
+    private Date getDaysBeforeDate(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        cal.add(Calendar.DAY_OF_MONTH, -days);
+        cal.add(Calendar.DAY_OF_MONTH, -NOTIFICATION_DAYS_BEFORE);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);

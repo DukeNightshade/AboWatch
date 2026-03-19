@@ -20,6 +20,14 @@ public class NotificationHelper {
     public static final String CHANNEL_ID = "abowatch_channel";
 
     // ====================================
+    // Constructor
+    // ====================================
+
+    private NotificationHelper() {
+        // Utility class – no instantiation
+    }
+
+    // ====================================
     // Business Logic Methods
     // ====================================
 

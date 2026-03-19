@@ -1,10 +1,16 @@
 package com.dukenightshade.abowatch.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -40,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
     private SubscriptionAdapter adapter;
     private boolean editModeActive = false;
 
+    private final ActivityResultLauncher<String> notificationPermissionLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.RequestPermission(),
+                    isGranted -> { }
+            );
+
     // ====================================
     // Lifecycle Methods
     // ====================================
@@ -53,8 +65,7 @@ public class MainActivity extends AppCompatActivity {
         setupRecyclerView();
         setupFabs();
         observeViewModel();
-        NotificationHelper.createNotificationChannel(this);
-        scheduleNotificationWorker();
+        setupNotifications();
     }
 
     // ====================================
@@ -121,6 +132,16 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setSubscriptions(subscriptions);
             }
         });
+    }
+
+    private void setupNotifications() {
+        NotificationHelper.createNotificationChannel(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+        }
+        scheduleNotificationWorker();
     }
 
     private void scheduleNotificationWorker() {
