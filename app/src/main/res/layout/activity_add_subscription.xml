@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="Name"
+            android:hint="@string/label_name"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:boxStrokeColor="@color/accentGreen"
             app:hintTextColor="@color/textSecondary">
@@ -25,7 +25,6 @@
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textPrimary"
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -35,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="Preis (€)"
+            android:hint="@string/label_price"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:boxStrokeColor="@color/accentGreen"
             app:hintTextColor="@color/textSecondary">
@@ -44,7 +43,6 @@
                 android:id="@+id/etPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textPrimary"
                 android:inputType="numberDecimal" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -54,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="Kategorie"
+            android:hint="@string/label_category"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:boxStrokeColor="@color/accentGreen"
             app:hintTextColor="@color/textSecondary">
@@ -63,7 +61,6 @@
                 android:id="@+id/etCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textPrimary"
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -73,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="Startdatum (TT.MM.JJJJ)"
+            android:hint="@string/label_start_date"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:boxStrokeColor="@color/accentGreen"
             app:hintTextColor="@color/textSecondary">
@@ -82,7 +79,6 @@
                 android:id="@+id/etStartDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textPrimary"
                 android:inputType="date" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -92,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:hint="Kündigungsfrist (Tage)"
+            android:hint="@string/label_notice_period"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:boxStrokeColor="@color/accentGreen"
             app:hintTextColor="@color/textSecondary">
@@ -101,7 +97,6 @@
                 android:id="@+id/etNoticePeriod"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textPrimary"
                 android:inputType="number" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -111,7 +106,7 @@
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Speichern"
+            android:text="@string/button_save"
             android:textColor="@color/backgroundDark"
             app:backgroundTint="@color/accentGreen" />
 

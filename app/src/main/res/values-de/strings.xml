@@ -13,4 +13,9 @@
     <string name="button_cancel">Abbrechen</string>
     <string name="delete_confirm_title">Abo löschen?</string>
     <string name="delete_confirm_msg">Möchtest du dieses Abo wirklich dauerhaft entfernen?</string>
+    <string name="button_edit">Bearbeiten</string>
+    <string name="button_done">Fertig</string>
+    <string name="button_delete">Löschen</string>
+    <string name="error_field_required">Dieses Feld darf nicht leer sein</string>
+    <string name="toast_subscription_saved">Abo gespeichert</string>
 </resources>

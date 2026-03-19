@@ -14,5 +14,10 @@
     <string name="cat_gym" translatable="false">Fitness</string>
     <string name="delete_confirm_title">Delete subscription?</string>
     <string name="delete_confirm_msg">Are you sure you want to permanently delete this subscription?</string>
+    <string name="button_edit">Edit</string>
+    <string name="button_done">Done</string>
+    <string name="button_delete">Delete</string>
+    <string name="error_field_required">This field cannot be left blank</string>
+    <string name="toast_subscription_saved">Subscription saved</string>
 
 </resources>

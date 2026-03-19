@@ -1,7 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
     <style name="Base.Theme.AboWatch" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
+        <!-- Primärfarben -->
+        <item name="colorPrimary">@color/accentGreen</item>
+        <item name="colorOnPrimary">@color/backgroundDark</item>
+        <item name="colorSurface">@color/cardBackground</item>
+        <item name="colorOnSurface">@color/textPrimary</item>
+
+        <!-- Hintergrund -->
+        <item name="android:colorBackground">@color/backgroundDark</item>
+        <item name="colorOnBackground">@color/textPrimary</item>
+
+        <!-- Textfarben -->
+        <item name="android:editTextColor">@color/textPrimary</item>
+        <item name="android:textColorHint">@color/textSecondary</item>
+        <item name="android:textColor">@color/textPrimary</item>
+
+        <!-- Fehlerfarbe -->
+        <item name="colorError">@color/errorRed</item>
+
     </style>
+
+    <style name="Theme.AboWatch" parent="Base.Theme.AboWatch" />
+
 </resources>
