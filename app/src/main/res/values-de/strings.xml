@@ -18,4 +18,5 @@
     <string name="button_delete">Löschen</string>
     <string name="error_field_required">Dieses Feld darf nicht leer sein</string>
     <string name="toast_subscription_saved">Abo gespeichert</string>
+    <string name="toast_subscription_deleted">Abo gelöscht</string>
 </resources>

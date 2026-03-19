@@ -69,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
         adapter.setOnSubscriptionActionListener(new OnSubscriptionActionListener() {
             @Override
             public void onEdit(Subscription subscription) {
-                // TODO: EditSubscriptionActivity starten
+                Intent intent = new Intent(MainActivity.this, EditSubscriptionActivity.class);
+                intent.putExtra(EditSubscriptionActivity.EXTRA_SUBSCRIPTION_ID, subscription.getId());
+                startActivity(intent);
             }
 
             @Override

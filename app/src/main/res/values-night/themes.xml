@@ -19,7 +19,7 @@
         <item name="android:textColor">@color/textPrimary</item>
 
         <!-- Fehlerfarbe -->
-        <item name="colorError">@color/errorRed</item>
+        <item name="colorError">@color/error</item>
 
     </style>
 
