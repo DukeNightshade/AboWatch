@@ -45,4 +45,9 @@
         <item>Monthly</item>
         <item>Yearly</item>
     </string-array>
+    <string name="notification_channel_name">AboWatch Reminders</string>
+    <string name="notification_channel_desc">Reminders for expiring cancellation deadlines</string>
+    <string name="notification_title">Cancellation deadline expiring!</string>
+    <string name="notification_content">Cancel by %s</string>
+    <string name="notification_big_text">Your subscription \\\"%1$s\\\" renews soon. Cancel by %2$s at the latest.</string>
 </resources>

@@ -34,4 +34,7 @@ public interface SubscriptionDao {
 
     @Query("DELETE FROM subscriptions WHERE id = :id")
     void deleteById(int id);
+
+    @Query("SELECT * FROM subscriptions")
+    List<Subscription> getAllSync();
 }
